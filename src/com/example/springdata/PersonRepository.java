@@ -3,7 +3,9 @@ package com.example.springdata;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 /**
  * 1.Repository是一个空接口,即是一个标记接口
  * 2.若自己定义的接口继承了Repository,则该接口会被IOC容器识别为一个 Repository Bean.
@@ -35,4 +37,30 @@ public interface PersonRepository extends Repository<Person, Integer> {
 
 	//WHERE a.id>?
 	List<Person> getByAddress_IdGreaterThan(Integer id);
+	
+	//查询 id 值最大的那个 Person
+	//使用 @Query 注解可以自定义 JPQL 语句以实现更灵活的查询
+	@Query("SELECT p FROM Person p WHERE p.id=(SELECT max(p2.id) FROM Person p2)")
+	Person getMaxIdPerson();
+	
+	//为@Query注解传递参数的方式1:使用占位符.
+	@Query("SELECT p FROM Person p WHERE p.lastName = ?1 AND p.email=?2")
+	List<Person> testQueryAnnotationParams1(String lastName,String email);
+	
+	//为@Query注解传递参数的方式1:使用命名参数.
+	@Query("SELECT p FROM Person p WHERE p.lastName = :lastName AND p.email=:email")
+	List<Person> testQueryAnnotationParams2(@Param("email")String email,@Param("lastName")String lastName);
+
+	//SpringData 允许在占位符上添加 %%. 
+	@Query("SELECT p FROM Person p WHERE p.lastName LIKE %?1% OR p.email LIKE %?2%")
+	List<Person> testQueryAnnotationParams3(String lastName,String email);
+	
+	@Query("SELECT p FROM Person p WHERE p.lastName LIKE %:lastName% OR p.email LIKE %:email%")
+	List<Person> testQueryAnnotationParams4(@Param("email")String email,@Param("lastName")String lastName);
+
+	@Query(value="SELECT count(id) FROM SD_PERSONS",nativeQuery=true)
+    long getTotalCount();
+
+
+
 }
