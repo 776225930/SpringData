@@ -17,9 +17,35 @@
           <property name="maxPoolSize" value="${maxPoolSize}"></property>
      </bean>
      <!-- 配置JPA的EntityManagerFactory -->
-      
+      <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+           <property name="dataSource" ref="dataSource"></property>
+           <property name="jpaVendorAdapter">
+               <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"></bean>
+           </property>
+           <property name="packagesToScan" value="com.example.springdata"></property>
+           <property name="jpaProperties">
+             <props>
+				<!-- 二级缓存相关 -->
+				<!--  
+				<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+				<prop key="net.sf.ehcache.configurationResourceName">ehcache-hibernate.xml</prop>
+				-->
+				<!-- 生成的数据表的列的映射策略 -->
+				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+				<!-- hibernate 基本属性 -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>               
+		     </props>
+           </property>
+      </bean>
      <!-- 配置事务管理器 -->
+     <bean id="transactionManager"  class="org.springframework.orm.jpa.JpaTransactionManager">
+           <property name="entityManagerFactory" ref="entityManagerFactory"></property>
+     </bean>
      <!-- 配置支持注解的事务 -->
+     <tx:annotation-driven transaction-manager="transactionManager"/>
      <!-- 配置SpringData -->
      
 
