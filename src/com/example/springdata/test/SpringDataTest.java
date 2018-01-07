@@ -10,6 +10,9 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.example.springdata.Person;
+import com.example.springdata.PersonRepository;
+
 public class SpringDataTest {
    private ApplicationContext ctx;
    {
@@ -22,7 +25,16 @@ public class SpringDataTest {
 	}
 	@Test
 	public void testJPA(){
-
 	}
+	
+	@Test
+	public void testHelloWorldSpringData(){
+		PersonRepository personRepository=ctx.getBean(PersonRepository.class);
+	    Person person=personRepository.getByLastName("AA");
+	    System.out.println(person);
+	
+	}
+	
+	
 
 }

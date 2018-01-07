@@ -52,4 +52,9 @@ public class Person {
 	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
+
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", lastName=" + lastName + ", email=" + email + ", birth=" + birth + "]";
+	}
 }
