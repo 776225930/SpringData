@@ -1,17 +1,18 @@
 package com.example.springdata;
 
-import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="SD_PERSONS")
 @Entity
 public class Person {
@@ -19,6 +20,9 @@ public class Person {
 	private String lastName;
 	private String email;
 	private Date birth;
+	private Address address;
+	
+	private Integer addressId;
     @GeneratedValue
     @Id
 	public Integer getId() {
@@ -51,6 +55,23 @@ public class Person {
 
 	public void setBirth(Date birth) {
 		this.birth = birth;
+	}
+	@JoinColumn(name="ADDRESS_ID")
+    @ManyToOne
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+    @Column(name="ADD_ID")
+	public Integer getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(Integer addressId) {
+		this.addressId = addressId;
 	}
 
 	@Override

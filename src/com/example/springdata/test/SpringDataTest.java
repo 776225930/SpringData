@@ -50,6 +50,11 @@ public class SpringDataTest {
 	    System.out.println("getByEmailInOrBirthLessThan: "+persons);
 	}
 	
+	@Test
+	public void testKeyWords2(){
+		List<Person> persons=personRepository.getByAddress_IdGreaterThan(1);
+	    System.out.println(persons);
+	}
 	
 
 }
