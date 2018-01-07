@@ -9,12 +9,15 @@
      <!-- 配置数据源 -->
      <context:property-placeholder location="classpath:db.properties"/>
      <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-          <property name="user" value=""></property>
-          <property name="password" value=""></property>
-          <property name="jdbcUrl" value=""></property>
-          <property name="driverClass" value=""></property>
+          <property name="user" value="${user}"></property>
+          <property name="password" value="${password}"></property>
+          <property name="jdbcUrl" value="${jdbcUrl}"></property>
+          <property name="driverClass" value="${driverClass}"></property>
+          <property name="initialPoolSize" value="${initialPoolSize}"></property>
+          <property name="maxPoolSize" value="${maxPoolSize}"></property>
      </bean>
      <!-- 配置JPA的EntityManagerFactory -->
+      
      <!-- 配置事务管理器 -->
      <!-- 配置支持注解的事务 -->
      <!-- 配置SpringData -->
