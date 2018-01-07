@@ -3,8 +3,13 @@ package com.example.springdata;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.jpa.mapping.JpaPersistentEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 /**
@@ -23,7 +28,7 @@ import org.springframework.data.repository.query.Param;
  *
  */
 //@RepositoryDefinition(domainClass=Person.class,idClass=Integer.class)
-public interface PersonRepository extends Repository<Person, Integer> {
+public interface PersonRepository extends JpaRepository<Person, Integer>,JpaSpecificationExecutor<Person>,PersonDao {
 	//根据 lastName 来获取对应的 Person
 	Person getByLastName(String lastName);
 	
@@ -70,6 +75,5 @@ public interface PersonRepository extends Repository<Person, Integer> {
 	@Modifying
     @Query("UPDATE Person p SET p.email=:email WHERE p.id=:id")
 	void updatePersonEmail(@Param("id")Integer id,@Param("email")String email);
-
-
+    
 }
